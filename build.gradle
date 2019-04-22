@@ -1,0 +1,114 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+
+group 'org.zhognkt'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //springboot相关jar包
+    compile('org.springframework.boot:spring-boot-starter-web') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    //log4j2jar包
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-log4j2
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.1.2.RELEASE'
+
+    //数据库连接使用druid连接池
+    compile('org.springframework.boot:spring-boot-starter-data-jpa') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+    compile group: 'com.alibaba', name: 'druid', version: '1.0.29'
+    compile('mysql:mysql-connector-java:5.1.31')
+    //数据处理
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.41'
+    //模板引擎
+//    compile('org.springframework.boot:spring-boot-starter-thymeleaf') {
+//        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+//    }
+    // https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper
+    compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '8.5.19'
+
+    //工具类
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    compile group: 'commons-io', name: 'commons-io', version: '2.4'
+    // https://mvnrepository.com/artifact/org.springframework/spring-context-support
+    compile group: 'org.springframework', name: 'spring-context-support', version: '4.3.18.RELEASE'
+// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+    // https://mvnrepository.com/artifact/org.springframework/spring-tx
+    compile group: 'org.springframework', name: 'spring-tx', version: '4.3.18.RELEASE'
+    compile(group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '1.3.2') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter'
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-jdbc'
+    }
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    // https://mvnrepository.com/artifact/io.springfox/springfox-swagger2
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+// https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    compile group: 'org.apache.shiro', name: 'shiro-core', version: '1.3.2' // 必引包，shiro核心包
+    compile group: 'org.apache.shiro', name: 'shiro-web', version: '1.3.2' // 与web整合的包
+    compile group: 'org.apache.shiro', name: 'shiro-spring', version: '1.3.2' // 与spring整合的包
+    compile group: 'org.apache.shiro', name: 'shiro-ehcache', version: '1.3.2' // shiro缓存
+    compile group: 'javax.servlet', name: 'jstl', version: '1.2' // shiro缓存
+
+}
+
+
+//mybatis generator plugin ------ start
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.com.arenagod.gradle:mybatis-generator-plugin:1.4"
+    }
+}
+
+apply plugin: "com.arenagod.gradle.MybatisGenerator"
+
+configurations {
+    mybatisGenerator
+}
+
+mybatisGenerator {
+    verbose = true
+    configFile = 'src/main/resources/generatorConfig.xml'
+}
+//mybatis generator plugin ------ end
+
+
+task "create-dirs" << {
+    sourceSets*.java.srcDirs*.each{
+        it.mkdirs()
+    }
+    sourceSets*.resources.srcDirs*.each{
+        it.mkdirs()
+    }
+}
+

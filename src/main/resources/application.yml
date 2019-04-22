@@ -1,0 +1,38 @@
+server:
+  port: 8880
+  tomcat:
+    max-http-header-size: 81920
+logging:
+  config: classpath:log4j.xml
+  path: logs
+
+spring:
+  datasource:
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://127.0.0.1:3306/examination_system?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      username : root
+      password : xda265856
+      driverClassName : com.mysql.jdbc.Driver
+  jpa:
+      hibernate:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        ddl-auto: update
+      show-sql: true
+# # 模板配置
+#  thymeleaf:
+#      cache: false # 这个开发配置为false，避免改了模板还要重启服务器
+#      prefix: classpath:/static/
+#      suffix: .html              # 下面3个不做解释了，可以不配置
+#      encoding: UTF-8
+#      mode: LEGACYHTML5      # 模板的模式
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/   # 定位模板的目录
+      suffix: .jsp     # 给返回的页面添加后缀名
+  resources:
+    static-locations: /WEB-INF/jsp
+mybatis:
+  type-aliases-package: com.system.po
+  mapper-locations: classpath:mapper/*.xml
+
