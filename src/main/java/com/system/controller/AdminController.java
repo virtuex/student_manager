@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -356,7 +357,7 @@ public class AdminController {
 
     //搜索课程
     @RequestMapping(value = "selectCourse", method = {RequestMethod.POST})
-    private String selectCourse(String findByName, Model model) throws Exception {
+    private String selectCourse(String findByName, HttpServletRequest request, Model model) throws Exception {
 
         List<CourseCustom> list = courseService.findByName(findByName);
 
