@@ -1,10 +1,7 @@
 package com.system.controller;
 
 import com.system.exception.CustomException;
-import com.system.po.CourseCustom;
-import com.system.po.PagingVO;
-import com.system.po.SelectedCourseCustom;
-import com.system.po.StudentCustom;
+import com.system.po.*;
 import com.system.service.CourseService;
 import com.system.service.SelectedCourseService;
 import com.system.service.StudentService;
@@ -15,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,7 +52,32 @@ public class StudentController {
 
         model.addAttribute("courseList", list);
         model.addAttribute("pagingVO", pagingVO);
+        //这里要找到已经选过的课
+        Integer userid = studentCustom.getUserid();
+        List<Selectedcourse> byStudentID = selectedCourseService.findByStudentID(userid);
+        List<Integer> ids = new ArrayList<>();
+        for(Selectedcourse courseCustom:byStudentID){
+            ids.add(courseCustom.getCourseid());
+        }
+        /*
+        判断该课程是否选过
+         */
+        List<CourseCustomTmp> customsToJsp = new ArrayList<>();
+        for(CourseCustom custom:list){
+            CourseCustomTmp custom1 = new CourseCustomTmp();
+            if(ids.contains(custom.getCourseid())){
+                custom1.copy(custom);
+                custom1.setIsSelected(1);
+            }else{
+                custom1.copy(custom);
+                custom1.setIsSelected(0);
+            }
+            customsToJsp.add(custom1);
+        }
+        model.addAttribute("courseList", customsToJsp);
+        model.addAttribute("pagingVO", pagingVO);
 
+//        model.addAttribute("seledtedCourse", ids);
         return "student/showCourse";
     }
 

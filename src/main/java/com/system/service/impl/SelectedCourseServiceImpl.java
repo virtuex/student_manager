@@ -110,8 +110,12 @@ public class SelectedCourseServiceImpl implements SelectedCourseService {
         selectedcourseMapper.insert(selectedCourseCustom);
     }
 
-    public List<SelectedCourseCustom> findByStudentID(Integer id) throws Exception {
-        return null;
+    public List<Selectedcourse> findByStudentID(Integer id) throws Exception {
+        SelectedcourseExample example = new SelectedcourseExample();
+        SelectedcourseExample.Criteria criteria = example.createCriteria();
+        criteria.andStudentidEqualTo(id);
+        List<Selectedcourse> selectedcourses = selectedcourseMapper.selectByExample(example);
+        return selectedcourses;
     }
 
     public void remove(SelectedCourseCustom selectedCourseCustom) throws Exception {
