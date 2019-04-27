@@ -31,4 +31,16 @@ public interface CourseService {
 
     //根据教师id查找课程
     List<CourseCustom> findByTeacherID(Integer id) throws Exception;
+
+    //根据授课时间查询
+    List<CourseCustom> findByCourseTime(String courseTime) throws Exception;
+
+    //根据上课地点查询
+    List<CourseCustom> findByCouseRoom(String courseRoom) throws Exception;
+
+    //课程类型
+    List<CourseCustom> findByCourseType(String couseType) throws Exception;
+
+    //根据院系查询
+    List<CourseCustom> findByCollegeType(String collegeType) throws Exception;
 }

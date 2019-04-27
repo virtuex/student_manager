@@ -3,7 +3,6 @@ package com.system.mapper;
 import com.system.po.Userlogin;
 import com.system.po.UserloginExample;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

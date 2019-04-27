@@ -142,4 +142,129 @@ public class CourseServiceImpl implements CourseService {
 
         return courseCustomList;
     }
+
+    @Override
+    public List<CourseCustom> findByCourseTime(String courseTime) throws Exception {
+        CourseExample courseExample = new CourseExample();
+        //自定义查询条件
+        CourseExample.Criteria criteria = courseExample.createCriteria();
+        //根据教师id查课程
+        criteria.andCoursetimeEqualTo(courseTime);
+
+        List<Course> list = courseMapper.selectByExample(courseExample);
+        List<CourseCustom> courseCustomList = null;
+
+        if (list.size() > 0) {
+            courseCustomList = new ArrayList<CourseCustom>();
+            for (Course c : list) {
+                CourseCustom courseCustom = new CourseCustom();
+                //类拷贝
+                BeanUtils.copyProperties(courseCustom, c);
+                //获取课程名
+                College college = collegeMapper.selectByPrimaryKey(c.getCollegeid());
+                courseCustom.setcollegeName(college.getCollegename());
+
+                courseCustomList.add(courseCustom);
+            }
+        }
+
+        return courseCustomList;
+    }
+
+    @Override
+    public List<CourseCustom> findByCouseRoom(String courseRoom) throws Exception {
+        CourseExample courseExample = new CourseExample();
+        //自定义查询条件
+        CourseExample.Criteria criteria = courseExample.createCriteria();
+        //根据教师id查课程
+        criteria.andClassroomEqualTo(courseRoom);
+
+        List<Course> list = courseMapper.selectByExample(courseExample);
+        List<CourseCustom> courseCustomList = null;
+
+        if (list.size() > 0) {
+            courseCustomList = new ArrayList<CourseCustom>();
+            for (Course c : list) {
+                CourseCustom courseCustom = new CourseCustom();
+                //类拷贝
+                BeanUtils.copyProperties(courseCustom, c);
+                //获取课程名
+                College college = collegeMapper.selectByPrimaryKey(c.getCollegeid());
+                courseCustom.setcollegeName(college.getCollegename());
+
+                courseCustomList.add(courseCustom);
+            }
+        }
+        return courseCustomList;
+    }
+
+    @Override
+    public List<CourseCustom> findByCourseType(String couseType) throws Exception {
+        CourseExample courseExample = new CourseExample();
+        //自定义查询条件
+        CourseExample.Criteria criteria = courseExample.createCriteria();
+        //根据教师id查课程
+        criteria.andCoursetypeEqualTo(couseType);
+
+        List<Course> list = courseMapper.selectByExample(courseExample);
+        List<CourseCustom> courseCustomList = null;
+
+        if (list.size() > 0) {
+            courseCustomList = new ArrayList<CourseCustom>();
+            for (Course c : list) {
+                CourseCustom courseCustom = new CourseCustom();
+                //类拷贝
+                BeanUtils.copyProperties(courseCustom, c);
+                //获取课程名
+                College college = collegeMapper.selectByPrimaryKey(c.getCollegeid());
+                courseCustom.setcollegeName(college.getCollegename());
+
+                courseCustomList.add(courseCustom);
+            }
+        }
+        return courseCustomList;
+    }
+
+    @Override
+    public List<CourseCustom> findByCollegeType(String collegeType) throws Exception {
+        /*
+         *根据collegeType确认学院的ID
+         */
+        List<CourseCustom> courseCustomList = null;
+        CollegeExample collegeExample = new CollegeExample();
+        CollegeExample.Criteria criteria1 = collegeExample.createCriteria();
+        criteria1.andCollegenameEqualTo(collegeType);
+        List<College> colleges = collegeMapper.selectByExample(collegeExample);
+        if(colleges.size()==0){
+            courseCustomList = new ArrayList<CourseCustom>();
+            return courseCustomList;
+        }
+        Integer collegeid = colleges.get(0).getCollegeid();
+
+
+        CourseExample courseExample = new CourseExample();
+        //自定义查询条件
+        CourseExample.Criteria criteria = courseExample.createCriteria();
+        //根据教师id查课程
+        criteria.andCollegeidEqualTo(collegeid);
+
+        List<Course> list = courseMapper.selectByExample(courseExample);
+
+        if (list.size() > 0) {
+            courseCustomList = new ArrayList<CourseCustom>();
+            for (Course c : list) {
+                CourseCustom courseCustom = new CourseCustom();
+                //类拷贝
+                BeanUtils.copyProperties(courseCustom, c);
+                //获取课程名
+                College college = collegeMapper.selectByPrimaryKey(c.getCollegeid());
+                courseCustom.setcollegeName(college.getCollegename());
+
+                courseCustomList.add(courseCustom);
+            }
+        }
+        return courseCustomList;
+    }
+
+
 }

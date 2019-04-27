@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -357,12 +358,36 @@ public class AdminController {
 
     //搜索课程
     @RequestMapping(value = "selectCourse", method = {RequestMethod.POST})
-    private String selectCourse(String findByName, HttpServletRequest request, Model model) throws Exception {
-
-        List<CourseCustom> list = courseService.findByName(findByName);
-
-        model.addAttribute("courseList", list);
+    private String selectCourse(String findByName,String searchType, Model model) throws Exception {
+        List<CourseCustom> list = new ArrayList<>();
+        switch(searchType){
+            case "courseName":
+               list = courseService.findByName(findByName);
+                model.addAttribute("courseList", list);
+                break;
+            case "teacherID":
+                list = courseService.findByTeacherID(Integer.valueOf(findByName));
+                model.addAttribute("courseList", list);
+                break;
+            case "courseTime":
+                list = courseService.findByCourseTime(findByName);
+                model.addAttribute("courseList", list);
+                break;
+            case "classRoom":
+                list = courseService.findByCouseRoom(findByName);
+                model.addAttribute("courseList", list);
+                break;
+            case "collegeType":
+                list = courseService.findByCollegeType(findByName);
+                model.addAttribute("courseList", list);
+                break;
+            case "courseType":
+                list = courseService.findByCourseType(findByName);
+                model.addAttribute("courseList", list);
+                break;
+        }
         return "admin/showCourse";
+
     }
 
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<其他操作>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/

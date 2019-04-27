@@ -39,9 +39,9 @@
                                     <option value="courseTime">上课时间</option>
                                     <option value="classRoom">上课地点</option>
                                     <option value="courseType">课程类型</option>
-                                    <option value="clooegeType">院系</option>
+                                    <option value="collegeType">院系</option>
                                 </select>
-                                <input type="text" class="form-control" style="width: 200px" placeholder="请输入姓名" name="findByName">
+                                <input type="text" class="form-control" style="width: 200px" placeholder="请输入查询值" name="findByName">
                                 <span class="input-group-addon btn"
                                       onclick="document.getElementById('form1').submit" id="sub">搜索</span>
                             </div>
