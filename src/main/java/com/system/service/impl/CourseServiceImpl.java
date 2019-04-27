@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -55,6 +56,22 @@ public class CourseServiceImpl implements CourseService {
         pagingVO.setToPageNo(toPageNo);
 
         List<CourseCustom> list = courseMapperCustom.findByPaging(pagingVO);
+        return list;
+    }
+
+    @Override
+    public List<CourseCustom> findByPagingAndCollegeId(Integer toPageNo, Integer collegeId) throws Exception {
+        PagingVO pagingVO = new PagingVO();
+        pagingVO.setToPageNo(toPageNo);
+
+        List<CourseCustom> list = courseMapperCustom.findByPaging(pagingVO);
+        Iterator<CourseCustom> iterator = list.iterator();
+        while(iterator.hasNext()){
+            CourseCustom next = iterator.next();
+            if(next.getCollegeid()!=collegeId){
+                iterator.remove();
+            }
+        }
         return list;
     }
 

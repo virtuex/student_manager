@@ -35,7 +35,10 @@ public class StudentController {
 
     @RequestMapping(value = "/showCourse")
     public String stuCourseShow(Model model, Integer page) throws Exception {
-
+        //获取当前用户名
+        Subject subject = SecurityUtils.getSubject();
+        StudentCustom studentCustom = studentService.findStudentAndSelectCourseListByName((String) subject.getPrincipal());
+        Integer collegeid = studentCustom.getCollegeid();
         List<CourseCustom> list = null;
         //页码对象
         PagingVO pagingVO = new PagingVO();
@@ -43,10 +46,10 @@ public class StudentController {
         pagingVO.setTotalCount(courseService.getCountCouse());
         if (page == null || page == 0) {
             pagingVO.setToPageNo(1);
-            list = courseService.findByPaging(1);
+            list = courseService.findByPagingAndCollegeId(1,collegeid);
         } else {
             pagingVO.setToPageNo(page);
-            list = courseService.findByPaging(page);
+            list = courseService.findByPagingAndCollegeId(page,collegeid);
         }
 
         model.addAttribute("courseList", list);

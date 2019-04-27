@@ -17,6 +17,9 @@ public interface CourseService {
     //获取分页查询课程信息
     List<CourseCustom> findByPaging(Integer toPageNo) throws Exception;
 
+    //获取分页查询课程信息
+    List<CourseCustom> findByPagingAndCollegeId(Integer toPageNo,Integer collegeId) throws Exception;
+
     //插入课程信息
     Boolean save(CourseCustom couseCustom) throws Exception;
 
