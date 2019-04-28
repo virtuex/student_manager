@@ -54,7 +54,14 @@
 						<div class="form-group">
 							<label for="inputPassword3" class="col-sm-2 control-label">上课时间</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="coursetime" placeholder="请输入上课时间">
+<%--								<input type="text" class="form-control" name="coursetime" placeholder="请输入上课时间">--%>
+								<select class="form-control" name="coursetime">
+									<option value="周一">周一</option>
+									<option value="周二">周二</option>
+									<option value="周三">周三</option>
+									<option value="周四">周四</option>
+									<option value="周五">周五</option>
+								</select>
 							</div>
 						</div>
 						<div class="form-group">
